@@ -1,33 +1,15 @@
 var express = require('express');
+const {getUsers, createUser, register, getUser, login} = require("./userController");
+const req = require("express/lib/request");
 const router = express.Router();
 
 //CRUD
 /* GET users listing. */
-/**
- * @swagger
- * /users:
- *   get:
- *     description: Returns a list of users
- *     responses:
- *       200:
- *         description: A list of users
- *         content:
- *           application/json:
- *
- */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', getUsers);
 
 /* GET single user. */
-router.get('/:id', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/:id', getUser);
 
-/* POST create user. */
-router.post('/', function(req, res, next) {
-  res.send('respond with a resource');
-})
 
 /* PUT update user. */
 router.put('/:id', function(req, res, next) {
@@ -40,9 +22,7 @@ router.delete('/:id', function(req, res, next) {
 })
 
 /* POST login user. */
-router.post('/login', function(req, res, next) {
-  res.send('respond with a resource');
-})
+router.post('/login', login)
 
 /* POST logout user. */
 router.post('/logout', function(req, res, next) {
@@ -50,9 +30,7 @@ router.post('/logout', function(req, res, next) {
 })
 
 /* POST register user. */
-router.post('/register', function(req, res, next) {
-  res.send('respond with a resource');
-})
+router.post('/register', register)
 
 /* POST forgot password user. */
 router.post('/forgot-password', function(req, res, next) {
@@ -63,7 +41,5 @@ router.post('/forgot-password', function(req, res, next) {
 router.post('/reset-password', function(req, res, next) {
   res.send('respond with a resource');
 })
-
-
 
 module.exports = router;
