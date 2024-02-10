@@ -7,7 +7,20 @@ const generateToken = (payload) => {
 }
 
 const verifyToken = (token) => {
+    console.log("token", token)
     return jwt.verify(token, secret);
 }
 
-module.exports = {generateToken, verifyToken};
+const decodeToken = (token) => {
+    return jwt.decode(token);
+}
+
+
+
+const getToken = (req) => {
+    return req.header('auth-token');
+}
+
+
+
+module.exports = {generateToken, verifyToken, decodeToken, getToken};

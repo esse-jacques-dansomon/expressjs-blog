@@ -1,7 +1,7 @@
 var express = require('express');
-const {getUsers, createUser, register, getUser, login} = require("./userController");
-const req = require("express/lib/request");
+const {getUsers, getConnectedUser, register, getUser, login} = require("./userController");
 const router = express.Router();
+const verifyToken = require('../../middleware/authMiddleware');
 
 //CRUD
 /* GET users listing. */
@@ -31,6 +31,9 @@ router.post('/logout', function(req, res, next) {
 
 /* POST register user. */
 router.post('/register', register)
+
+/* POST login user. */
+router.get('/me',verifyToken, getConnectedUser)
 
 /* POST forgot password user. */
 router.post('/forgot-password', function(req, res, next) {

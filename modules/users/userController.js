@@ -1,5 +1,4 @@
 const User = require('./User');
-const {sign} = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const utils = require('../../utils/auth');
 
@@ -55,7 +54,7 @@ const login = async (req, res) => {
         // 3- Create and assign a token
         const token = utils.generateToken(user._id);
 
-        res.header('auth-token', token).json({
+        res.json({
             message: 'User logged in successfully',
             token: token,
             refresh_token: '',
@@ -77,9 +76,27 @@ const login = async (req, res) => {
     }
 }
 
-const me = async (req, res) => {
-    res.send(req.user);
+const getConnectedUser = async (req, res) => {
+    try {
+        const id = req.userId;
+        console.log("red", red)
+        console.log("userId", id)
+        // const user = await User.findById(id);
+        // if (!user) {
+        //     return res.status(404).json({error: 'User not found'});
+        //
+        // }
+        res.status(200).json({
+            message: 'User found',
+            data : {
+                id, req
+            }
+        });
 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Server error', message: error.message});
+    }
 }
 const logout = async (req, res) => {
     res.send('respond with a resource');
@@ -98,27 +115,28 @@ const getUsers = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const id = req.params.id;
     try {
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).json({error: 'User not found'});
-
-        }
-        res.status(200).json({
-            message: 'User found',
-            data : {
-                fistName: user.fistName,
-                name: user.name,
-                email: user.email,
-                active: user.active,
-                role: user.role,
-                numberArticles: user.numberArticles,
-                followers: user.followers,
-                following: user.following
-
-            }
-        });
+        const id = req.params.id;
+        return res.status(200).json({error: 'User not found', req : req.params});
+        // const user = await User.findById(id);
+        // if (!user) {
+        //     return res.status(404).json({error: 'User not found'});
+        //
+        // }
+        // res.status(200).json({
+        //     message: 'User found',
+        //     data : {
+        //         fistName: user.fistName,
+        //         name: user.name,
+        //         email: user.email,
+        //         active: user.active,
+        //         role: user.role,
+        //         numberArticles: user.numberArticles,
+        //         followers: user.followers,
+        //         following: user.following
+        //
+        //     }
+        // });
 
     } catch (error) {
         console.error(error);
@@ -145,5 +163,6 @@ module.exports = {
     getUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getConnectedUser
 }
