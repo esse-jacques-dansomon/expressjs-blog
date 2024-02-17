@@ -1,6 +1,9 @@
 // 1-import mongoose from 'mongoose';
 const mongoose = require('mongoose');
-
+const validateEmail = function (email) {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email)
+};
 // 2-Create a schema
 const UserSchema = new mongoose.Schema({
     fistName: {
@@ -13,8 +16,12 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: [true, 'Please add an email']
+        trim: true,
+        lowercase: true,
+        unique: true,
+        required: 'Email address is required',
+        validate: [validateEmail, 'Please fill a valid email address'],
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     image: {
         type: String,
@@ -61,5 +68,3 @@ const UserSchema = new mongoose.Schema({
 
 // 3-Create a model
 module.exports = User = mongoose.model('user', UserSchema);
-
-
