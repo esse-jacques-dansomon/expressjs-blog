@@ -2,16 +2,25 @@ const swaggerAutogen = require('swagger-autogen')({openapi: '3.0.0'});
 
 const doc = {
     info: {
-        title: 'My API',
-        description: 'Description'
+        title: 'Blog API',
+        description: 'API for a blog application',
+        version: '1.0.0',
+        contact: {
+            name: 'Esse Jacques',
+            email: 'essedansomon@gmail.com'
+        },
+        servers: ['http://localhost:3000']
     },
-    basePath: '/',  // by default: '/'
+    basePath: '/',
     host: 'localhost:3000/api/v1',
     tags : [
         {
+            name: 'auth',
+            description: 'API for authentication in the system'
+        },
+        {
             name: 'users',
             description: 'API for users in the system',
-
         },
         {
             name: 'articles',
@@ -34,9 +43,8 @@ const doc = {
             type: 'apiKey',
             name: 'Authorization',
             in: 'header'
-        }
+        },
     },
-
     security: [
         {
             Bearer: []
@@ -44,7 +52,6 @@ const doc = {
     ],
 
     definitions: {
-        User2: '#../modules/users/User.js',
         User: {
             fistName: 'string',
             name: 'string',
@@ -77,8 +84,17 @@ const doc = {
             content: 'string',
             user: 'string',
             article: 'string',
+        },
+        Error : {
+            success: 'boolean',
+            status: 'number',
+            message: 'string',
+            stack: 'any',
+
         }
-    }
+    },
+
+
 
 };
 
@@ -89,6 +105,14 @@ const routes = ["./app.js"]
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
 swaggerAutogen(outputFile, routes, doc);
+
+// Path: swagger.auto-gen.js
+
+swaggerAutogen(outputFile, routes, doc).then(() => {
+    require('../app.js')
+})
+
+
 
 
 

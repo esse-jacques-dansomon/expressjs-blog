@@ -1,9 +1,16 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "My API",
-    "description": "Description",
-    "version": "1.0.0"
+    "title": "Blog API",
+    "description": "API for a blog application",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Esse Jacques",
+      "email": "essedansomon@gmail.com"
+    },
+    "servers": [
+      "http://localhost:3000"
+    ]
   },
   "servers": [
     {
@@ -14,6 +21,10 @@
     }
   ],
   "tags": [
+    {
+      "name": "auth",
+      "description": "API for authentication in the system"
+    },
     {
       "name": "users",
       "description": "API for users in the system"
@@ -32,23 +43,10 @@
     }
   ],
   "paths": {
-    "/users/": {
-      "get": {
-        "tags": [
-          "users"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/users/login": {
+    "/auth/login": {
       "post": {
         "tags": [
-          "users"
+          "auth"
         ],
         "description": "",
         "responses": {
@@ -81,10 +79,10 @@
         }
       }
     },
-    "/users/register": {
+    "/auth/register": {
       "post": {
         "tags": [
-          "users"
+          "auth"
         ],
         "description": "",
         "responses": {
@@ -93,9 +91,6 @@
           },
           "400": {
             "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -126,18 +121,146 @@
         }
       }
     },
-    "/users/me": {
-      "get": {
+    "/auth/logout": {
+      "post": {
         "tags": [
-          "users"
+          "auth"
         ],
         "description": "",
         "responses": {
           "401": {
             "description": "Unauthorized"
           },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/profile/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -412,127 +535,450 @@
   },
   "components": {
     "schemas": {
-      "User2": {
-        "type": "string",
-        "example": "#../modules/users/User.js"
-      },
       "User": {
         "type": "object",
         "properties": {
-          "fistName": {
+          "type": {
             "type": "string",
-            "example": "string"
+            "example": "object"
           },
-          "name": {
-            "type": "string",
-            "example": "string"
-          },
-          "email": {
-            "type": "string",
-            "example": "string"
-          },
-          "image": {
-            "type": "string",
-            "example": "string"
-          },
-          "password": {
-            "type": "string",
-            "example": "string"
-          },
-          "active": {
-            "type": "string",
-            "example": "boolean"
-          },
-          "isBlocked": {
-            "type": "string",
-            "example": "boolean"
-          },
-          "role": {
-            "type": "string",
-            "example": "string"
-          },
-          "numberArticles": {
-            "type": "string",
-            "example": "number"
-          },
-          "followers": {
-            "type": "string",
-            "example": "array"
-          },
-          "following": {
-            "type": "string",
-            "example": "array"
-          },
-          "articles": {
-            "type": "string",
-            "example": "array"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "fistName": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "email": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "image": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "password": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "active": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "boolean"
+                  }
+                }
+              },
+              "isBlocked": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "boolean"
+                  }
+                }
+              },
+              "role": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "numberArticles": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "number"
+                  }
+                }
+              },
+              "followers": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              },
+              "following": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              },
+              "articles": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "Article": {
         "type": "object",
         "properties": {
-          "titre": {
+          "type": {
             "type": "string",
-            "example": "string"
+            "example": "object"
           },
-          "description": {
-            "type": "string",
-            "example": "string"
-          },
-          "category": {
-            "type": "string",
-            "example": "string"
-          },
-          "interactions": {
-            "type": "string",
-            "example": "array"
-          },
-          "likes": {
-            "type": "string",
-            "example": "array"
-          },
-          "dislikes": {
-            "type": "string",
-            "example": "array"
-          },
-          "user": {
-            "type": "string",
-            "example": "string"
-          },
-          "image": {
-            "type": "string",
-            "example": "string"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "titre": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "category": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "interactions": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              },
+              "likes": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              },
+              "dislikes": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "array"
+                  }
+                }
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "image": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "Category": {
         "type": "object",
         "properties": {
-          "title": {
+          "type": {
             "type": "string",
-            "example": "string"
+            "example": "object"
           },
-          "user": {
-            "type": "string",
-            "example": "string"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "Comment": {
         "type": "object",
         "properties": {
-          "content": {
+          "type": {
             "type": "string",
-            "example": "string"
+            "example": "object"
           },
-          "user": {
+          "properties": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "article": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "type": {
             "type": "string",
-            "example": "string"
+            "example": "object"
           },
-          "article": {
-            "type": "string",
-            "example": "string"
+          "properties": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "boolean"
+                  }
+                }
+              },
+              "status": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "number"
+                  }
+                }
+              },
+              "message": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "string"
+                  }
+                }
+              },
+              "stack": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }

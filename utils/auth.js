@@ -7,7 +7,11 @@ const generateToken = (payload) => {
 }
 
 const verifyToken = (token) => {
-    return jwt.verify(token, secret);
+    try {
+        jwt.verify(token, secret);
+    } catch (error) {
+        return false;
+    }
 }
 
 const decodeToken = (token) => {
