@@ -19,14 +19,29 @@ const getUsers = async (req, res) => {
     }
 }
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
     try {
         const id = req.params.id;
 
         const user = await User.findById(id);
+
+        //1 - verifier si l'utilisateur existe
         if (!user) {
             return res.status(404).json({error: 'User not found'});
         }
+        //2 - verifier si user est bloqué
+        if (user.isBlocked || !user.active) {
+            return res.status(400).json({error: 'User blocked'});
+        }
+        //3 - verifier si l'utilisateur est un admin
+        if (user.role === 'Admin') {
+            return res.status(400).json({error: 'User not found'});
+        }
+        console.log(req.userId)
+        if(user.blockedUsers.includes(req.userId)) {
+            return res.status(400).json({error: 'You have been blocked by User'});
+        }
+
 
         res.status(200).json({
             message: 'User found',

@@ -17,10 +17,10 @@ router.get( '/testUsers', createTestUsers);
 router.post( '/createAdmin',isAdmin, createUser);
 
 /* DELETE delete user. */
-router.delete('/:id', deleteUser);
+router.delete('/:id',isAdmin, deleteUser);
 
 // /* GET single user. */
-router.get('/profile/:id', getUser);
+router.get('/profile/:id', isAuth, isUser, getUser);
 
 /* PUT update user. */
 router.put('/:id',isAuth, isAdmin, updateUser);
