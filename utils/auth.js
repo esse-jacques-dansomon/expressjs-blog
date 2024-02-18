@@ -7,11 +7,11 @@ const generateToken = (payload) => {
 }
 
 const verifyToken = (token) => {
-    try {
-        jwt.verify(token, secret);
-    } catch (error) {
-        return false;
-    }
+     try {
+       return  jwt.verify(token, secret);
+     } catch (error) {
+         return false;
+     }
 }
 
 const decodeToken = (token) => {
@@ -20,7 +20,7 @@ const decodeToken = (token) => {
 
 
 const getToken = (req) => {
-    return req.header('Authorization');
+    return req.header('Authorization') ? req.header('Authorization').split(' ')[1] : null;
 }
 
 

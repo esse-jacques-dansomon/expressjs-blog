@@ -9,7 +9,6 @@ const doc = {
             name: 'Esse Jacques',
             email: 'essedansomon@gmail.com'
         },
-        servers: ['http://localhost:3000']
     },
     basePath: '/',
     host: 'localhost:3000/api/v1',
@@ -40,7 +39,7 @@ const doc = {
     produces: ['application/json'],
     securityDefinitions: {
         Bearer: {
-            type: 'apiKey',
+            type: 'Bearer',
             name: 'Authorization',
             in: 'header'
         },
@@ -49,6 +48,7 @@ const doc = {
         {
             Bearer: []
         }
+
     ],
 
     definitions: {
@@ -108,9 +108,9 @@ swaggerAutogen(outputFile, routes, doc);
 
 // Path: swagger.auto-gen.js
 
-swaggerAutogen(outputFile, routes, doc).then(() => {
-    require('../app.js')
-})
+// swaggerAutogen(outputFile, routes, doc).then(() => {
+//     require('../app.js')
+// })
 
 
 

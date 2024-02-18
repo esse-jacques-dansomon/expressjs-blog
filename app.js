@@ -1,10 +1,10 @@
-const createError = require('http-errors');
 const express = require('express');
 const swaggerApi = require('./docs/swagger-api');
 const logger = require('morgan');
 const env = require('dotenv').config();
 const connectDB = require("./config/dbConnect");
 const ErrorHandler = require("./middleware/errorMiddleware");
+const isAuth = require("./middleware/authMiddleware");
 const PORT = process.env.PORT || 3000;
 const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
@@ -19,7 +19,7 @@ app.use(`${API_PREFIX}/auth`, require('./modules/auth/authRoutes'),
     /* #swagger.tags = ['auth'] */
 )
 
-app.use(`${API_PREFIX}/users`, require('./modules/users/userRoutes'),
+app.use(`${API_PREFIX}/users`, isAuth, require('./modules/users/userRoutes'),
     /* #swagger.tags = ['users'] */
 );
 
