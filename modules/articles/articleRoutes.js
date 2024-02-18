@@ -1,6 +1,6 @@
 const express = require('express');
 const {likeArticle, dislikeArticle, createArticle, getAllArticles, getArticle, updateArticle, deleteArticle,
-    getAllMyArticles
+    getAllMyArticles,getMyArticlesTotal
 } = require("./articleController");
 const {isAuth, isUser} = require("../../middleware/authMiddleware");
 const router = express.Router();
@@ -10,9 +10,11 @@ const router = express.Router();
 /* GET articles listing. */
 router.get('/', getAllArticles);
 
-
-/* POST create article. */
+/* GET create article. */
 router.get('/myArticles',isAuth,isUser, getAllMyArticles);
+
+/* GET create article. */
+router.get('/myArticles/total',isAuth,isUser, getMyArticlesTotal);
 
 /* GET single article. */
 router.get('/details/:id', getArticle);

@@ -1,8 +1,8 @@
 var express = require('express');
 const {getUsers, followUser, unfollowUser, getUser, updateUser,blockUser, createUser, createTestUsers, deleteUser,
-    blockUserAsUser
+    blockUserAsUser,getMyFollowers
 } = require("./userController");
-const {isAdmin, isAuth} = require("../../middleware/authMiddleware");
+const {isAdmin, isAuth, isUser} = require("../../middleware/authMiddleware");
 const router = express.Router();
 // const isAuth = require('../../middleware/authMiddleware');
 
@@ -23,18 +23,21 @@ router.delete('/:id', deleteUser);
 router.get('/profile/:id', getUser);
 
 /* PUT update user. */
-router.put('/:id', isAdmin, updateUser);
+router.put('/:id',isAuth, isAdmin, updateUser);
 
 /* PUT Block user. */
-router.put('/blockAsAdmin/:id', isAdmin,  blockUser);
+router.put('/blockAsAdmin/:id',isAuth, isAdmin,  blockUser);
 
 /* PUT Block user. */
-router.put('/blockAsUser/:id', isAuth,  blockUserAsUser);
+router.put('/blockAsUser/:id', isAuth,isUser,  blockUserAsUser);
 
 /* GET follow user. */
-router.get('/follow/:id', followUser)
+router.get('/follow/:id',isAuth,isUser, followUser)
 
 /* GET unfollow user. */
-router.get('/unfollow/:id', unfollowUser);
+router.get('/unfollow/:id',isAuth,isUser, unfollowUser);
+
+/* GET unfollow user. */
+router.get('/myFollowers',isAuth,isUser, getMyFollowers);
 
 module.exports = router;

@@ -37,6 +37,23 @@ const getAllMyArticles = async (req, res, next) => {
         next(error);
     }
 }
+
+const getMyArticlesTotal = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.userId);
+        const articles = await Article.find({user: user._id.toString()});
+        if (!articles) {
+            return res.status(404).json({error: 'No articles found'});
+        }
+        res.status(200).json({
+            message: 'Articles found',
+            data: articles.length
+        });
+    } catch (error) {
+        next(error);
+    }
+
+}
 const getArticle = async (req, res) => {
     try {
         const id = req.params.id;
@@ -64,17 +81,10 @@ const createArticle = async (req, res, next) => {
         if (!user) {
             return res.status(404).json({error: 'User not found'});
         }
-        const categoryObject = await Category.find({user: user._id, id: category});
+        const categoryObject = await Category.find({id: category});
         if (!categoryObject) {
             return res.status(404).json({error: 'Category not found'});
         }
-        console.log('categoryObject', categoryObject, user._id.toString());
-        // verify is it is his category
-        // const isHisCategory = categoryObject.user.toString() === user._id.toString();
-        //
-        //  if (!isHisCategory) {
-        //      return res.status(403).json({error: 'Not authorized'});
-        //  }
 
         const article = new Article({
             titre,
@@ -85,6 +95,7 @@ const createArticle = async (req, res, next) => {
         });
         await article.save();
         user.articles.push(article._id);
+        user.numberArticles = user.numberArticles + 1;
         await user.save();
         res.status(201).json({
             message: 'Article created',
@@ -214,5 +225,6 @@ module.exports = {
     getAllMyArticles,
     createArticle,
     updateArticle,
-    deleteArticle
+    deleteArticle,
+    getMyArticlesTotal,
 }

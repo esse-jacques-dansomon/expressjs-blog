@@ -65,6 +65,7 @@ const login = async (req, res) => {
         res.json({
             message: 'User logged in successfully',
             token: token,
+            type: 'Bearer',
             refresh_token: '',
             user: {
                 id: user._id,
@@ -75,7 +76,8 @@ const login = async (req, res) => {
                 role: user.role,
                 numberArticles: user.numberArticles,
                 followers: user.followers,
-                following: user.following
+                following: user.following,
+                articles: user.articles
             }
         });
     } catch (error) {

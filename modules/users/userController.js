@@ -61,6 +61,23 @@ const deleteUser = async (req, res, next) => {
       }
 }
 
+const getMyFollowers = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.userId);
+        const followers = await User.find({_id: {$in: user.followers}},'-password -createdAt -updatedAt');
+        if (!followers) {
+            return res.status(404).json({error: 'No followers found'});
+        }
+
+        res.status(200).json({
+            message: 'Followers found',
+            data: followers
+        });
+    } catch (error) {
+        next(error);
+    }
+
+}
 const followUser = async (req, res, next) => {
     try {
         // 1. Get the user to follow
@@ -316,5 +333,6 @@ module.exports = {
     blockUser,
     blockUserAsUser,
     createUser,
-    createTestUsers
+    createTestUsers,
+    getMyFollowers
 }
