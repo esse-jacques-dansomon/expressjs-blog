@@ -7,7 +7,6 @@ const generateToken = (payload) => {
 }
 
 const verifyToken = (token) => {
-    console.log("token", token)
     return jwt.verify(token, secret);
 }
 
@@ -16,9 +15,8 @@ const decodeToken = (token) => {
 }
 
 
-
 const getToken = (req) => {
-    return req.header('auth-token');
+    return req.header('Authorization');
 }
 
 

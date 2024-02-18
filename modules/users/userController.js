@@ -79,17 +79,23 @@ const login = async (req, res) => {
 const getConnectedUser = async (req, res) => {
     try {
         const id = req.userId;
-        console.log("red", red)
-        console.log("userId", id)
-        // const user = await User.findById(id);
-        // if (!user) {
-        //     return res.status(404).json({error: 'User not found'});
-        //
-        // }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({error: 'User not found'});
+        }
         res.status(200).json({
             message: 'User found',
             data : {
-                id, req
+                fistName: user.fistName,
+                name: user.name,
+                email: user.email,
+                active: user.active,
+                role: user.role,
+                numberArticles: user.numberArticles,
+                followers: user.followers,
+                following: user.following
+
             }
         });
 

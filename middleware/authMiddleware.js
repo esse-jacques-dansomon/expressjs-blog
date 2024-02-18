@@ -1,17 +1,13 @@
 // middleware/authMiddleware.js
-const utils = require('../utils/auth');
-function verifyToken(req, res, next) {
-    const token = req.header('Authorization');
-    console.log("token", token)
-    if (!token) return res.status(401).json({ error: 'Access denied' });
-    try {
-        const decoded = utils.verifyToken(token);
-        console.log("decoded", decoded)
-        req.userId = decoded.id;
-        next();
-    } catch (error) {
-        res.status(401).json({ error: 'Invalid token' });
-    }
-};
 
-module.exports = verifyToken;
+const utils = require('../utils/auth');
+function isAuth(req, res, next) {
+    const token = utils.getToken(req);
+    const isVerified = utils.verifyToken(token);
+    if (!isVerified) return res.status(401).json({ error: 'Invalid token' });
+    const decoded = utils.decodeToken(token);
+    req.userId = decoded.id;
+    next();
+}
+
+module.exports = isAuth;
