@@ -1,30 +1,26 @@
 const express = require('express');
+const {getAllCategories, getCategory, createCategory, updateCategory, deleteCategory} = require("./categoryController");
+const {isAuth, isUser} = require("../../middleware/authMiddleware");
 const router = express.Router();
 
 //CRUD
+
 /* GET categories listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', getAllCategories);
 
 /* GET single category. */
-router.get('/:id', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/details/:id', getCategory);
 
 /* POST create category. */
-router.post('/', function(req, res, next) {
-  res.send('respond with a resource');
-})
+router.post('/', isAuth, isUser, createCategory)
+
+/* POST create category. */
+router.get('/myCategories', isAuth, isUser, getAllCategories)
 
 /* PUT update category. */
-router.put('/:id', function(req, res, next) {
-  res.send('respond with a resource');
-})
+router.put('/:id',isAuth, isUser, updateCategory)
 
 /* DELETE delete category. */
-router.delete('/:id', function(req, res, next) {
-  res.send('respond with a resource');
-})
+router.delete('/:id',isAuth, isUser, deleteCategory)
 
 module.exports = router;

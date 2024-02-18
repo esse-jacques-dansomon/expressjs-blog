@@ -4,7 +4,6 @@ const logger = require('morgan');
 const env = require('dotenv').config();
 const connectDB = require("./config/dbConnect");
 const ErrorHandler = require("./middleware/errorMiddleware");
-const isAuth = require("./middleware/authMiddleware");
 const PORT = process.env.PORT || 3000;
 const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
@@ -14,18 +13,19 @@ app.use(logger('dev'));
 app.use(express.json());
 
 
+
 //ROUTES
 app.use(`${API_PREFIX}/auth`, require('./modules/auth/authRoutes'),
     /* #swagger.tags = ['auth'] */
-)
+    )
 
-app.use(`${API_PREFIX}/users`, isAuth, require('./modules/users/userRoutes'),
+app.use(`${API_PREFIX}/users`, require('./modules/users/userRoutes'),
     /* #swagger.tags = ['users'] */
-);
+    );
 
 app.use(`${API_PREFIX}/articles`, require('./modules/articles/articleRoutes'),
     /* #swagger.tags = ['articles'] */
-);
+    );
 
 app.use(`${API_PREFIX}/categories`, require('./modules/categories/categoryRoutes'),
     /* #swagger.tags = ['categories'] */

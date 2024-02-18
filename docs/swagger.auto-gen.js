@@ -39,7 +39,7 @@ const doc = {
     produces: ['application/json'],
     securityDefinitions: {
         Bearer: {
-            type: 'Bearer',
+            type: 'apiKey',
             name: 'Authorization',
             in: 'header'
         },

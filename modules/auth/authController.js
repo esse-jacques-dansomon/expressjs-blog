@@ -50,9 +50,16 @@ const login = async (req, res) => {
         if (!validPassword) {
             return res.status(400).json({error: 'Invalid password'});
         }
-        console.log(user)
-        console.log(user._id)
-        // 3- Create and assign a token
+        //-3- Check if user is active
+        if (!user.active) {
+            return res.status(400).json({error: 'User is not active'});
+        }
+        //4 - check if user is blocked
+        if (user.isBlocked) {
+            return res.status(400).json({error: 'User is blocked'});
+        }
+
+        // 5- Create and assign a token
         const token = utils.generateToken(user._id);
 
         res.json({

@@ -1,5 +1,8 @@
 const express = require('express');
-const {likeArticle, dislikeArticle, createArticle, getAllArticles, getArticle, updateArticle, deleteArticle} = require("./articleController");
+const {likeArticle, dislikeArticle, createArticle, getAllArticles, getArticle, updateArticle, deleteArticle,
+    getAllMyArticles
+} = require("./articleController");
+const {isAuth, isUser} = require("../../middleware/authMiddleware");
 const router = express.Router();
 
 //CRUD
@@ -7,22 +10,25 @@ const router = express.Router();
 /* GET articles listing. */
 router.get('/', getAllArticles);
 
-/* GET single article. */
-router.get('/:id', getArticle);
 
 /* POST create article. */
-router.post('/', createArticle)
+router.get('/myArticles',isAuth,isUser, getAllMyArticles);
+
+/* GET single article. */
+router.get('/details/:id', getArticle);
+
+router.post('/', isAuth,isUser, createArticle)
 
 /* PUT update article. */
-router.put('/:id', updateArticle)
+router.put('/:id',isAuth,isUser, updateArticle)
 
 /* DELETE delete article. */
-router.delete('/:id', deleteArticle)
+router.delete('/:id',isAuth,isUser, deleteArticle)
 
 /* GET Like/Unlike article. */
-router.get('/like/:id', likeArticle)
+router.get('/like/:id', isAuth,isUser, likeArticle)
 
 /* GET Dislike/UnDislike article. */
-router.get('/dislike/:id', dislikeArticle)
+router.get('/dislike/:id',isAuth,isUser, dislikeArticle)
 
 module.exports = router;

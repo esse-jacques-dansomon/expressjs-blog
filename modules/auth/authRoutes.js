@@ -1,7 +1,7 @@
 var express = require('express');
 const router = express.Router();
 const {getConnectedUser, register, login, logout, forgotPassword, resetPassword} = require("./authController");
-const isAuth = require("../../middleware/authMiddleware");
+const {isAuth} = require("../../middleware/authMiddleware");
 
 /* POST login user. */
 router.post('/login', login)
